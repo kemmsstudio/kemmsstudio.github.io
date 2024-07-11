@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Réseau Social</title>
+    <style>
+        /* Styles CSS ici */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+        }
+        
+        header {
+            background-color: #1DA1F2;
+            color: white;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+        
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+        
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+        }
+        
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+        
+        main {
+            padding: 20px;
+        }
+        
+        #publication {
+            margin-bottom: 20px;
+        }
+        
+        #publicationText {
+            width: 100%;
+            height: 100px;
+            padding: 10px;
+            font-size: 16px;
+        }
+        
+        button {
+            background-color: #1DA1F2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background-color: #0E71A8;
+        }
+        
+        #fil {
+            border: 1px solid #ccc;
+            padding: 10px;
+        }
+        
+        #fil > div {
+            margin-bottom: 10px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        
+        footer {
+            text-align: center;
+            padding: 10px;
+            background-color: #f0f0f0;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mon Réseau Social</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Accueil</a></li>
+                <li><a href="#">Profil</a></li>
+                <li><a href="#">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <main>
+        <section id="publication">
+            <h2>Nouvelle Publication</h2>
+            <form id="publicationForm">
+                <textarea id="publicationText" placeholder="Quoi de neuf ?"></textarea>
+                <button type="submit">Publier</button>
+            </form>
+        </section>
+        
+        <section id="fil">
+            <h2>Fil d'actualités</h2>
+            <!-- Ici s'afficheront les publications -->
+        </section>
+    </main>
 
+    <footer>
+        <p>&copy; 2024 Mon Réseau Social. Tous droits réservés.</p>
+    </footer>
+
+    <script>
+        // JavaScript ici
+        // Simuler des données de publications
+        let publications = [];
+
+        // Écouter la soumission du formulaire de publication
+        document.getElementById('publicationForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            let textePublication = document.getElementById('publicationText').value.trim();
+            
+            if (textePublication !== '') {
+                ajouterPublication(textePublication);
+                document.getElementById('publicationForm').reset();
+            } else {
+                alert('Veuillez entrer du texte pour publier.');
+            }
+        });
+
+        // Fonction pour ajouter une publication au fil d'actualités
+        function ajouterPublication(texte) {
+            let nouvellePublication = {
+                texte: texte,
+                date: new Date().toLocaleString()
+            };
+            
+            publications.unshift(nouvellePublication); // Ajouter au début du tableau
+            
+            afficherPublications();
+        }
+
+        // Fonction pour afficher toutes les publications
+        function afficherPublications() {
+            let filDiv = document.getElementById('fil');
+            filDiv.innerHTML = ''; // Réinitialiser le contenu
+            
+            publications.forEach(function(pub) {
+                let pubDiv = document.createElement('div');
+                pubDiv.classList.add('publication');
+                pubDiv.innerHTML = `
+                    <p>${pub.texte}</p>
+                    <small>Publié le ${pub.date}</small>
+                `;
+                filDiv.appendChild(pubDiv);
+            });
+        }
+    </script>
+</body>
+</html>
