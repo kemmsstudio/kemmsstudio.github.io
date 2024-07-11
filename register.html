@@ -6,8 +6,8 @@
     <title>Inscription</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #eceff1;
             display: flex;
             justify-content: center;
             align-items: center;
@@ -15,33 +15,42 @@
             margin: 0;
         }
         .container {
-            background-color: white;
+            background-color: #ffffff;
             padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-            width: 300px;
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            width: 350px;
         }
         h2 {
             text-align: center;
+            color: #333;
+            margin-bottom: 20px;
         }
         input[type="text"], input[type="email"], input[type="password"] {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ccc;
-            border-radius: 4px;
+            border-radius: 5px;
+            display: block;
+            margin-left: 10px;
+            margin-right: 10px;
         }
         button {
-            width: 100%;
+            width: calc(100% - 20px);
             padding: 10px;
-            background-color: #5cb85c;
+            background-color: #007bff;
             color: white;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             cursor: pointer;
+            display: block;
+            margin-left: 10px;
+            margin-right: 10px;
+            margin-top: 20px;
         }
         button:hover {
-            background-color: #4cae4c;
+            background-color: #0056b3;
         }
     </style>
 </head>
@@ -60,15 +69,38 @@
     <script>
         document.getElementById('registerForm').addEventListener('submit', function(event) {
             event.preventDefault();
+            var username = document.getElementById('username').value;
+            var email = document.getElementById('email').value;
             var password = document.getElementById('password').value;
             var confirmPassword = document.getElementById('confirmPassword').value;
+
             if (password !== confirmPassword) {
                 alert("Les mots de passe ne correspondent pas !");
             } else {
+                localStorage.setItem('username', username);
+                localStorage.setItem('email', email);
+                localStorage.setItem('password', password);
                 alert("Inscription réussie !");
-                // Ajoutez ici la logique pour envoyer les données au serveur
+                // Rediriger vers la page de connexion
+                window.location.href = 'login.html';
             }
         });
     </script>
 </body>
 </html>
+
+const registerForm = document.getElementById('registerForm');
+registerForm.addEventListener('submit', (event) => {
+    event.preventDefault();
+    const email = document.getElementById('email').value;
+    const password = document.getElementById('password').value;
+
+    firebase.auth().createUserWithEmailAndPassword(email, password)
+        .then((userCredential) => {
+            alert('Inscription réussie !');
+            window.location.href = 'login.html';
+        })
+        .catch((error) => {
+            alert('Erreur : ' + error.message);
+        });
+});
