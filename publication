@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mon Réseau Social</title>
+    <style>
+        /* Styles pour le site */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f0f0f0;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-left: 20px;
+        }
+
+        nav ul li a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+        }
+
+        #publishForm {
+            margin-bottom: 20px;
+        }
+
+        #tweetContent {
+            width: 100%;
+            font-size: 1em;
+            padding: 10px;
+            box-sizing: border-box;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            resize: none;
+        }
+
+        #posts {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 10px;
+            overflow: hidden;
+        }
+
+        .post {
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .post p {
+            margin: 0;
+            padding: 0;
+        }
+
+        .post .author {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .post .timestamp {
+            color: #999;
+            font-size: 0.8em;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>Mon Réseau Social</h1>
+        <nav>
+            <ul>
+                <li><a href="/">Accueil</a></li>
+                <li><a href="/profile">Profil</a></li>
+                <li><a href="/logout">Déconnexion</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main>
+        <section id="publish">
+            <h2>Nouvelle publication</h2>
+            <form id="publishForm">
+                <textarea id="tweetContent" rows="3" placeholder="Que voulez-vous dire ?"></textarea>
+                <button type="submit">Publier</button>
+            </form>
+        </section>
+
+        <section id="timeline">
+            <h2>Flux d'actualités</h2>
+            <div id="posts">
+                <!-- Les publications seront affichées ici -->
+            </div>
+        </section>
+    </main>
+
+    <script>
+        // Simulons des données de publication pour affichage
+        let postsData = [
+            { author: "Utilisateur1", content: "Ceci est un premier tweet !", timestamp: "2024-07-11T12:00:00Z" },
+            { author: "Utilisateur2", content: "Voici un autre tweet intéressant.", timestamp: "2024-07-11T12:15:00Z" },
+        ];
+
+        // Fonction pour afficher les publications
+        function renderPosts(posts) {
+            const postsContainer = document.getElementById('posts');
+            postsContainer.innerHTML = '';
+
+            posts.forEach(post => {
+                const postElement = document.createElement('div');
+                postElement.classList.add('post');
+                const html = `
+                    <p class="author">${post.author}</p>
+                    <p>${post.content}</p>
+                    <p class="timestamp">${new Date(post.timestamp).toLocaleString()}</p>
+                `;
+                postElement.innerHTML = html;
+                postsContainer.appendChild(postElement);
+            });
+        }
+
+        // Action lors de la soumission du formulaire de publication
+        document.getElementById('publishForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            
+            const tweetContent = document.getElementById('tweetContent').value;
+            const newPost = {
+                author: "Utilisateur1", // À remplacer par la gestion des utilisateurs connectés
+                content: tweetContent,
+                timestamp: new Date().toISOString()
+            };
+
+            postsData.unshift(newPost); // Ajouter la nouvelle publication au début du tableau (simulé)
+            renderPosts(postsData); // Réafficher les publications
+            document.getElementById('tweetContent').value = ''; // Effacer le contenu du formulaire
+        });
+
+        // Initialisation de l'affichage des publications au chargement de la page
+        renderPosts(postsData);
+    </script>
+</body>
+</html>
